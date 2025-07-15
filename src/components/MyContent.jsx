@@ -3,11 +3,13 @@ import { Breadcrumb, Layout, Menu, theme } from 'antd';
 
 const { Content } = Layout;
 
-const MyContent = ({ onUpdate, onDelete }) => {
+const MyContent = ({list}) => {
 
   const {
       token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+
+    console.log(list);
   
   return (
     <ul style={{margin:'0', padding:'0'}}>
@@ -22,7 +24,7 @@ const MyContent = ({ onUpdate, onDelete }) => {
             fontSize: '30px',
           }}
         >
-
+        <p>{list}</p>
         </div>
       </Content>
     </ul>
