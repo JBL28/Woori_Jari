@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 import { createPortal } from 'react-dom';
 import Modal from '../../ui/Modal';
 import NameForm from './NameForm.jsx';
+import DragAndDropForm from './DragAndDropForm';
 
 const { Header } = Layout;
 
@@ -17,7 +18,6 @@ const MyHeader = ({list, onChangeList }) => {
                 <button onClick={() => setOpenModal(true)} style={{ marginLeft: '20px' }}>
                     자리 배치 인원 입력하기
                 </button>
-
                 {openModal &&
                     createPortal(
                         <Modal onClose={() => setOpenModal(false)}>
