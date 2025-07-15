@@ -1,32 +1,39 @@
-import { useContext } from 'react'
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+// MyHeader.jsx
+import React, { useState } from 'react';
+import { Layout } from 'antd';
 import { createPortal } from 'react-dom';
-import { useState } from 'react'
 import Modal from '../../ui/Modal';
+import NameForm from './NameForm.jsx';
 
 const { Header } = Layout;
 
-const MyHeader = ({ onUpdate, onDelete }) => {
-  const [openModal, open] = useState(false);
+const MyHeader = ({list, onChangeList }) => {
+    const [openModal, setOpenModal] = useState(true);
 
+    return (
+        <ul style={{ margin: '0', padding: '0' }}>
+            <Header style={{ display: 'flex', alignItems: 'center' }}>
+                <h2 style={{ color: 'white' }}>우리자리.</h2>
+                <button onClick={() => setOpenModal(true)} style={{ marginLeft: '20px' }}>
+                    자리 배치 인원 입력하기
+                </button>
 
-  return (
-    <ul style={{margin: "0", padding: "0"}}>
-        <Header style={{ display: 'flex', alignItems: 'center' }}>
-            <div >
-                <h2 style={{color:"white"}}>우리자리.</h2>
-            </div>
-            <button onClick={() => open(true)} style={{marginLeft: '20px'}}>-테스트용- 모달열기</button>
-            {openModal &&
-              createPortal(
-                <Modal onClose={() => open(false)}>
-                  test
-                </Modal>,
-                document.getElementById('asideRoot')
-            )}
-        </Header>
-    </ul>
-  )
-}
+                {openModal &&
+                    createPortal(
+                        <Modal onClose={() => setOpenModal(false)}>
+                            <NameForm
+                                list = {list}
+                                onChangeList={(newNames) => {
+                                    onChangeList(() => [...newNames]); // ✅ 기존 리스트에 추가
+                                }}
+                                onClose={setOpenModal}
+                            />
+                        </Modal>,
+                        document.getElementById('asideRoot')
+                    )}
+            </Header>
+        </ul>
+    );
+};
 
-export default MyHeader
+export default MyHeader;
