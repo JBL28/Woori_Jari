@@ -10,6 +10,7 @@ const { Header } = Layout;
 
 const MyHeader = ({list, onChangeList }) => {
     const [openModal, setOpenModal] = useState(true);
+    const [openSecondModal, open] = useState(false);
 
     return (
         <ul style={{ margin: '0', padding: '0' }}>
@@ -24,10 +25,18 @@ const MyHeader = ({list, onChangeList }) => {
                             <NameForm
                                 list = {list}
                                 onChangeList={(newNames) => {
-                                    onChangeList(() => [...newNames]); // ✅ 기존 리스트에 추가
+                                    onChangeList(() => [...newNames]); //npm ✅ 기존 리스트에 추가
                                 }}
                                 onClose={setOpenModal}
                             />
+                        </Modal>,
+                        document.getElementById('asideRoot')
+                    )}
+                <button onClick={() => open(true)} style={{marginLeft: '20px'}}>-테스트용- 모달열기</button>
+                {openSecondModal &&
+                    createPortal(
+                        <Modal onClose={() => open(false)}>
+                            <DragAndDropForm />
                         </Modal>,
                         document.getElementById('asideRoot')
                     )}
