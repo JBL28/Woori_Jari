@@ -3,6 +3,7 @@ import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { createPortal } from 'react-dom';
 import { useState } from 'react'
 import Modal from '../../ui/Modal';
+import DragAndDropForm from './DragAndDropForm';
 
 const { Header } = Layout;
 
@@ -20,7 +21,7 @@ const MyHeader = ({ onUpdate, onDelete }) => {
             {openModal &&
               createPortal(
                 <Modal onClose={() => open(false)}>
-                  test
+                  <DragAndDropForm />
                 </Modal>,
                 document.getElementById('asideRoot')
             )}
