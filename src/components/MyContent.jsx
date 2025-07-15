@@ -4,6 +4,7 @@ import { Breadcrumb, Layout, Menu, theme } from 'antd';
 const { Content } = Layout;
 
 const MyContent = ({ onUpdate, onDelete }) => {
+
   const {
       token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -18,9 +19,10 @@ const MyContent = ({ onUpdate, onDelete }) => {
             padding: 24,
             borderRadius: borderRadiusLG,
             margin: '30px',
+            fontSize: '30px',
           }}
         >
-          Content
+
         </div>
       </Content>
     </ul>

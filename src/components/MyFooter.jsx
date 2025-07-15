@@ -7,7 +7,7 @@ const MyFooter = ({ onUpdate, onDelete }) => {
   return (
     <ul style={{margin: "0", padding: "0"}}>
         <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©{new Date().getFullYear()} Created by Ant UED
+            © 우리자리 2024 또는 Copyright 우리자리 2025 (All Rights Reserved) 
         </Footer>
     </ul>
   )
