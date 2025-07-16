@@ -23,7 +23,7 @@ const NameForm = ({ rowcol, onChangeRowCol, list, onChangeList, onClose }) => {
         }
 
         if (nameList.length <= row*col){
-            for(let i = 0; i<=(row*col-nameList.length); i++){
+            for(let i = 0; i<=(row*col-nameList.length - 1); i++){
                 nameList.push(`빈자리 ${crypto.randomUUID()}`);
             }
         }
