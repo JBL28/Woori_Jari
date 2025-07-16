@@ -73,6 +73,7 @@ const SeatArrangement = ({ rows, cols, data }) => {
           >
             <SortableContext
               items={seats.map((item, index) => item || `empty-${index}`)}
+              // items={seats.map((item, index) => item)}
               strategy={rectSwappingStrategy}
               reorderItems={arraySwap}
               getNewIndex={({ id, items, activeIndex, overIndex }) =>
@@ -94,6 +95,7 @@ const SeatArrangement = ({ rows, cols, data }) => {
             </SortableContext>
           </div>
         </Droppable>
+        <div>아무것도 나오지 않을 시 좌측 상단 버튼에서 이름을 먼저 입력해주세요.</div>
       </DndContext>
     );
   };
