@@ -10,6 +10,8 @@ const { Header, Content, Footer } = Layout;
 const App = () => {
     const [rowcol, changeRowCol] = useState([]);
     const [list, changeList] = useState([]);
+    console.log(rowcol);
+    
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -17,7 +19,7 @@ const App = () => {
     return (
         <Layout style={{ minWidth: '100vw', minHeight: '100vh' }}>
             <MyHeader rowcol={rowcol} onChageRowCol = {changeRowCol} list={list} onChangeList={changeList} />
-            <MyContent list={list} />
+            <MyContent rowcol={rowcol} list={list} />
             <MyFooter />
         </Layout>
     );

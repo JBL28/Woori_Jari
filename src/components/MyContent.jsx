@@ -1,48 +1,54 @@
-import { useContext } from 'react'
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout } from 'antd';
 import SeatArrangement from './SeatArrangement';
 
 const { Content } = Layout;
 
-const MyContent = ({list}) => {
-  const data = [
-  "민서",
-  "지훈",
-  "서연",
-  "도윤",
-  "하은",
-  "준우",
-  "예진",
-  "시우",
-  "수아",
-  "현우",
-];
+const MyContent = ({ rowcol, list }) => {
+  const data = list;
+  const rows = rowcol?.[0] ?? 0;
+  const cols = rowcol?.[1] ?? 0;
 
-  const {
-      token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
-
-    console.log(list);
-  
   return (
-    <ul style={{margin:'0', padding:'0'}}>
-        <Content style={{ padding: '0 48px' }}>
+    <div
+      style={{
+        margin: '0',
+        padding: '0',
+        background: 'linear-gradient(135deg, #fdfcfb, #e2d1c3)',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Content style={{ width: '100%', maxWidth: '1000px', padding: '24px' }}>
         <div
           style={{
-            background: colorBgContainer,
-            minHeight: 280,
-            padding: 24,
-            borderRadius: borderRadiusLG,
-            margin: '30px',
-            fontSize: '30px',
+            background: '#ffffffcc',
+            backdropFilter: 'blur(10px)',
+            borderRadius: '2rem',
+            padding: '40px 32px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
+            transition: 'all 0.3s ease-in-out',
           }}
         >
-        <p>{list}</p>
-        <SeatArrangement data={data} rows={3} cols={4} />
+          <h2
+            style={{
+              fontSize: '2rem',
+              fontWeight: '700',
+              textAlign: 'center',
+              marginBottom: '24px',
+              color: '#333',
+              letterSpacing: '-0.5px',
+            }}
+          >
+            ✨ 오늘의 랜덤 자리 배치 ✨
+          </h2>
+
+          <SeatArrangement data={data} rows={rows} cols={cols} />
         </div>
       </Content>
-    </ul>
-  )
-}
+    </div>
+  );
+};
 
-export default MyContent
+export default MyContent;
