@@ -38,7 +38,7 @@ const MyContent = ({list}) => {
           }}
         >
         <p>{list}</p>
-        <SeatArrangement data={data} rows={5} cols={2} />
+        <SeatArrangement data={data} rows={3} cols={4} />
         </div>
       </Content>
     </ul>

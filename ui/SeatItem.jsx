@@ -1,22 +1,57 @@
-// 좌석 하나를 버튼 형태로 출력
-// 사용자가 클릭할 수 있게 하고
-// props로 받은 데이터에 따라 좌석의 데이터를 변경가능(숫자나 이름 등으로)
-// onclick으로 드래그나 자리 고정할 수 있도록
-const SeatItem = ({ data, onClick }) => {
+import { useState } from "react";
+
+const SeatItem = ({ data, onClick, locked }) => {
+
+
   return (
     <button
       onClick={onClick}
       style={{
         width: "80px",
         height: "60px",
-        backgroundColor: "blue",
+        backgroundColor: locked ? "gray" : "blue",
         border: "1px solid #aaa",
         borderRadius: "8px",
         fontSize: "16px",
         cursor: "pointer",
+        position: "relative",
+        color: "white",
+        overflow: "hidden",
       }}
     >
       {data}
+      {locked && (
+        <>
+          {/* 대각선1 (/ 방향) */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              width: "120%",
+              height: "2px",
+              backgroundColor: "white",
+              transform: "translate(-50%, -50%) rotate(45deg)",
+              transformOrigin: "center",
+              pointerEvents: "none", // 클릭 방해 안 하도록
+            }}
+          />
+          {/* 대각선2 (\ 방향) */}
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              width: "120%",
+              height: "2px",
+              backgroundColor: "white",
+              transform: "translate(-50%, -50%) rotate(-45deg)",
+              transformOrigin: "center",
+              pointerEvents: "none",
+            }}
+          />
+        </>
+      )}
     </button>
   );
 };
