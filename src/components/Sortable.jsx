@@ -18,8 +18,8 @@ function SortableSeatItem({ id, data, locked, onClick }) {
 
   return (
     <div ref={setNodeRef} {...attributes} style={style}>
-        <span {...listeners}>::</span>
       <SeatItem data={data} locked={locked} onClick={onClick} />
+      <span {...listeners}>-</span>
     </div>
   );
 }

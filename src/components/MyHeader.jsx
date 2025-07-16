@@ -4,11 +4,11 @@ import { Layout } from 'antd';
 import { createPortal } from 'react-dom';
 import Modal from '../../ui/Modal';
 import NameForm from './NameForm.jsx';
-import DragAndDropForm from './DragAndDropForm';
+
 
 const { Header } = Layout;
 
-const MyHeader = ({list, onChangeList }) => {
+const MyHeader = ({rowcol, onChageRowCol, list, onChangeList }) => {
     const [openModal, setOpenModal] = useState(true);
     const [openSecondModal, open] = useState(false);
 
@@ -23,20 +23,14 @@ const MyHeader = ({list, onChangeList }) => {
                     createPortal(
                         <Modal onClose={() => setOpenModal(false)}>
                             <NameForm
+                                rowcol = {rowcol}
+                                onChangeRowCol = {(newRowCol) => {onChageRowCol(newRowCol);}}
                                 list = {list}
                                 onChangeList={(newNames) => {
-                                    onChangeList(() => [...newNames]); //npm ✅ 기존 리스트에 추가
+                                    onChangeList(() => [...newNames]);
                                 }}
                                 onClose={setOpenModal}
                             />
-                        </Modal>,
-                        document.getElementById('asideRoot')
-                    )}
-                <button onClick={() => open(true)} style={{marginLeft: '20px'}}>-테스트용- 모달열기</button>
-                {openSecondModal &&
-                    createPortal(
-                        <Modal onClose={() => open(false)}>
-                            <DragAndDropForm />
                         </Modal>,
                         document.getElementById('asideRoot')
                     )}
