@@ -16,11 +16,18 @@ const NameForm = ({ rowcol, onChangeRowCol, list, onChangeList, onClose }) => {
         const nameList = names
             .split(',')
             .map((name) => name.trim())
-            .filter((name) => name.length > 0);
+            .filter((name) => (name.length));
 
         if (!isNaN(row) && !isNaN(col)) {
             onChangeRowCol([row, col]);
         }
+
+        if (nameList.length <= row*col){
+            for(let i = 0; i<=(row*col-nameList.length); i++){
+                nameList.push(`빈자리 ${crypto.randomUUID()}`);
+            }
+        }
+        
 
         if (nameList.length > 0) {
             onChangeList(nameList);

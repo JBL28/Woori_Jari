@@ -9,7 +9,7 @@ const SeatItem = ({ data, onClick, locked }) => {
       style={{
         width: "80px",
         height: "60px",
-        backgroundColor: locked ? "gray" : "white",
+        backgroundColor: (/^빈자리/.test(data)||locked) ? "gray" : "white",
         border: "1px solid #aaa",
         borderRadius: "8px",
         fontSize: "16px",
