@@ -1,8 +1,16 @@
-// NameForm.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const NameForm = ({ list, onChangeList, onClose }) => {
-    const [names, setNames] = useState(list);
+const NameForm = ({ rowcol, onChangeRowCol, list, onChangeList, onClose }) => {
+    const [names, setNames] = useState(list.join(', '));
+    const [row, setRow] = useState(rowcol?.[0] || 0);
+    const [col, setCol] = useState(rowcol?.[1] || 0);
+
+    // 모달이 열릴 때 초기화
+    useEffect(() => {
+        setNames(list.join(', '));
+        setRow(rowcol?.[0] || 0);
+        setCol(rowcol?.[1] || 0);
+    }, [list, rowcol]);
 
     const handleSubmit = () => {
         const nameList = names
@@ -10,32 +18,45 @@ const NameForm = ({ list, onChangeList, onClose }) => {
             .map((name) => name.trim())
             .filter((name) => name.length > 0);
 
+        if (!isNaN(row) && !isNaN(col)) {
+            onChangeRowCol([row, col]);
+        }
+
         if (nameList.length > 0) {
-            onChangeList(nameList);         // 상위(App)로 전달
-            setNames('');            // 입력 초기화
-            onClose(false);          // 모달 닫기
+            onChangeList(nameList);
+            onClose(false); // 모달 닫기
         }
     };
 
     return (
         <>
-            <h3 style={{ fontSize: '1.75rem', color: '#fecaca' }}>인원 이름</h3>
+            <h3 style={{ fontSize: '1.75rem', color: '#FFFFFF' }}>행, 열, 이름을 입력해주세요</h3>
 
             <form style={{ margin: '0.5rem 0' }} onSubmit={(e) => e.preventDefault()}>
                 <div style={{ marginBottom: '1rem' }}>
-                    <label
-                        htmlFor='names'
-                        style={{
-                            display: 'block',
-                            marginBottom: '0.5rem',
-                            fontSize: '1.25rem',
-                            color: 'white',
-                        }}
-                    >
+                    <label style={{ display: 'block', fontSize: '1.25rem', color: 'white' }}>행</label>
+                    <input
+                        type="number"
+                        value={row}
+                        min={0}
+                        onChange={(e) => setRow(Math.max(0, Number(e.target.value)))}
+                        style={{ height: '2rem' }}
+                    />
+
+                    <label style={{ display: 'block', fontSize: '1.25rem', color: 'white' }}>열</label>
+                    <input
+                        type="number"
+                        value={col}
+                        min={0}
+                        onChange={(e) => setCol(Math.max(0, Number(e.target.value)))}
+                        style={{ height: '2rem' }}
+                    />
+
+                    <label htmlFor="names" style={{ display: 'block', fontSize: '1.25rem', color: 'white' }}>
                         이름 목록 (쉼표로 구분)
                     </label>
                     <textarea
-                        id='names'
+                        id="names"
                         value={names}
                         onChange={(e) => setNames(e.target.value)}
                         rows={6}
@@ -50,12 +71,12 @@ const NameForm = ({ list, onChangeList, onClose }) => {
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-                    <button onClick={() => onClose(false)} type='button' style={{ fontSize: '1.25rem', color: 'white' }}>
+                    <button onClick={() => onClose(false)} type="button" style={{ fontSize: '1.25rem', color: 'white' }}>
                         취소
                     </button>
                     <button
                         onClick={handleSubmit}
-                        type='button'
+                        type="button"
                         style={{
                             fontSize: '1.25rem',
                             padding: '0.75rem 1.5rem',
