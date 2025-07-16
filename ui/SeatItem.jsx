@@ -9,13 +9,13 @@ const SeatItem = ({ data, onClick, locked }) => {
       style={{
         width: "80px",
         height: "60px",
-        backgroundColor: locked ? "gray" : "blue",
+        backgroundColor: locked ? "gray" : "white",
         border: "1px solid #aaa",
         borderRadius: "8px",
         fontSize: "16px",
         cursor: "pointer",
         position: "relative",
-        color: "white",
+        color: "black",
         overflow: "hidden",
       }}
     >

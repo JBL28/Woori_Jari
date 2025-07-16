@@ -4,6 +4,11 @@
 
 import { useEffect, useState } from "react";
 import SeatItem from "../../ui/SeatItem";
+import { DndContext, DragOverlay } from '@dnd-kit/core'
+import { SortableContext, rectSwappingStrategy, arrayMove, arraySwap } from "@dnd-kit/sortable";
+import Droppable from './Droppable'
+import Draggable from './Draggable'
+import SortableSeatItem from "./Sortable";
 
 const SeatArrangement = ({ rows, cols, data }) => {
   // 잠금 상태 배열
@@ -61,42 +66,102 @@ useEffect(() => {
     });
   };
 
-  const renderSeats = () => {
-    const totalSeats = rows * cols;
+  // const renderSeats = () => {
+  //   const totalSeats = rows * cols;
 
-    return (
-      <div
-        style={{
-          display: "grid",
-          gridTemplateRows: `repeat(${rows}, 80px)`,
-          gridTemplateColumns: `repeat(${cols}, 80px)`,
-          gap: "5px",
-          justifyContent: "center",
-        }}
-      >
-        {/* 길이가 totalSeats인 배열을 만듦 */}
-        {Array.from({ length: totalSeats }).map((_, index) => {
-          const seatData = seats[index]; // 데이터 있으면 넣고 없으면 빈 셀
-          // 데이터가 있으면 해당 데이터를 전달
-          // 데이터가 없으면 빈 배열 전달
-          return (
-            <SeatItem
-              key={index}
-              data={seatData || ''}
-              locked={locked[index]}
-              onClick={() => toggleLock(index)}
-            />
-          );
-        })}
-      </div>
-    );
-  };
+  //   return (
+  //     <DndContext>
+  //       <Droppable>
+  //         <div
+  //           style={{
+  //             display: "grid",
+  //             gridTemplateRows: `repeat(${rows}, 80px)`,
+  //             gridTemplateColumns: `repeat(${cols}, 80px)`,
+  //             gap: "5px",
+  //             justifyContent: "center",
+  //           }}
+  //         > 
+  //         <SortableContext items = {seats}>
+  //           {/* 길이가 totalSeats인 배열을 만듦 */}
+  //           {items.from({ length: totalSeats }).map((_, index) => {
+  //             const seatData = seats[index]; // 데이터 있으면 넣고 없으면 빈 셀
+  //             // 데이터가 있으면 해당 데이터를 전달
+  //             // 데이터가 없으면 빈 배열 전달
+  //             return (
+  //                 <SortableSeatItem
+  //                   key={index}
+  //                   data={seatData || ''}
+  //                   locked={locked[index]}
+  //                   onClick={() => toggleLock(index)}
+  //                 />
+  //             );
+  //           })}
+  //           </SortableContext>
+  //         </div>
+  //       </Droppable>
+  //     </DndContext>
+  //   );
+  // };
+
+  const renderSeats = () => {
+  const totalSeats = rows * cols;
 
   return (
-    <div style={{ padding: "24px", textAlign: "center" }}>
-      <h2>자리 배치도</h2>
-      <button onClick={shuffleSeats}>셔플</button>
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+    <DndContext
+      onDragEnd={({ active, over }) => {
+        if (!over || active.id === over.id) return;
+        const oldIndex = seats.findIndex((item) => item === active.id);
+        const newIndex = seats.findIndex((item) => item === over.id);
+        if (oldIndex !== -1 && newIndex !== -1) {
+          setSeats((items) => arraySwap(items, oldIndex, newIndex));
+        }
+      }}
+    >
+      <Droppable>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateRows: `repeat(${rows}, 80px)`,
+            gridTemplateColumns: `repeat(${cols}, 80px)`,
+            gap: "5px",
+            justifyContent: "center",
+          }}
+        >
+          {/* 고유한 ID 배열 추출 */}
+          <SortableContext
+            items={seats.map((item, index) => item || `empty-${index}`)}
+            strategy={rectSwappingStrategy}
+            reorderItems={arraySwap}
+    getNewIndex={({id, items, activeIndex, overIndex}) =>
+      arraySwap(items, activeIndex, overIndex).indexOf(id)
+    }
+          >
+            {Array.from({ length: totalSeats }).map((_, index) => {
+              const seatData = seats[index];
+
+              return (
+                <SortableSeatItem
+                  key={index}
+                  id={seatData || `empty-${index}`} // ✅ 반드시 있어야 함
+                  data={seatData || ''}
+                  locked={locked[index]}
+                  onClick={() => toggleLock(index)}
+                />
+              );
+            })}
+          </SortableContext>
+        </div>
+      </Droppable>
+    </DndContext>
+  );
+};
+
+
+  return (
+    <div style={{ padding: "0px", margin: '0px', textAlign: "center" }}>
+      <h2 style={{margin:'0px'}}>자리 배치도</h2>
+      <button onClick={shuffleSeats} style={{margin:'2vh'}}>셔플</button>
+      <div style={{ display: "flex", flexDirection: "column", gap: "5vw" }}>
         {renderSeats()}
       </div>
     </div>
